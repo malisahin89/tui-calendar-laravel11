@@ -57,14 +57,6 @@ class EventListController extends Controller
         $pdf = Pdf::loadView('tui-events-PDF', $data);
         return $pdf->download('invoice.pdf');
 
-        // $data = [
-        //     'title' => 'PDF TİTLE',
-        //     'date' => date('m/d/Y'),
-        //     'users' => $users];
-        // $pdf = Pdf::loadview('tui-events-PDF', $data);
-        // return $pdf->download('events.pdf');
-        // return view('tui-events-PDF', compact(['users','date']));
-
     }
 
 }
