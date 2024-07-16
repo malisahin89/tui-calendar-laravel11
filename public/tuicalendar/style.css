@@ -1,0 +1,90 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            height: 100%;
+        }
+        body {
+            height: 100%;
+            padding: 0 2%;
+        }
+        #app {
+            height: 100%;
+            overflow: auto;
+            position: relative;
+            z-index: 3;
+        }
+        #main {
+            height: calc(100vh - 140px);
+            border: 1px solid #e5e5e5;
+        }
+        .toastui-calendar-section-button .toastui-calendar-icon {
+            top: 0;
+        }
+        button {
+            background: transparent;
+            outline: none;
+            box-shadow: 0;
+        }
+        .btn {
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            font-size: 12px;
+            color: #333;
+            margin-right: 5px;
+            height: 30px;
+            padding: 0 16px;
+            transition: .3s;
+        }
+        .btn.round {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border-radius: 30px;
+        }
+        .btn:hover {
+            cursor: pointer;
+            box-shadow: 1px 1px 10px rgba(50,50,50,.1);
+        }
+
+        .clear:after {
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+        }
+        .head {
+            padding: 10px 0 30px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        @media screen and (max-width: 750px){
+            .head {
+                display: block;
+                padding: 5px 0;
+            }
+            .head .left {
+                width: 100%;
+                text-align: center;
+            }
+            .head .right {
+                margin-top: 10px;
+                width: 100%;
+                text-align: center;
+            }
+            .toastui-calendar-form-container {
+                min-width: 100%;
+            }
+            .toastui-calendar-popup-section-title input {
+                width: 240px;
+            }
+            .toastui-calendar-popup-section-location .toastui-calendar-content {
+                width: 276px;
+            }
+            .toastui-calendar-popup-date-picker {
+                width: 313px;
+                margin-bottom: 10px;
+            }
+        }
