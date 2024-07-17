@@ -3,6 +3,8 @@
 </p>
 <p align="center">
     <em>Give tasks to users, set a duration, list them by month and download them as PDF.</em>
+	[Working Project Video on YouTube](https://www.youtube.com/watch?v=Qtyr4lS_4XQ&t=205s "Working Project Video")
+	[Laravel installation video for beginners, Laragon and VS Code on YouTube](https://www.youtube.com/watch?v=Qtyr4lS_4XQ "Laravel installation video for beginners, Laragon and VS Code")
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/malisahin89/tui-calendar-laravel11?style=flat&color=0080ff" alt="license">
