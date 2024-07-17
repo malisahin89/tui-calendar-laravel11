@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Events;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TuicalendarController extends Controller
 {
@@ -31,8 +32,10 @@ class TuicalendarController extends Controller
             'category' => $request->category,
         ]);
 
+        $bladeID=$request->id;
+
         if ($event) {
-            return response()->json(['success' => true, 'message' => 'Etkinlik Başarıyla Kaydedildi'], 201);
+            return response()->json(['success' => true, 'message' => 'Etkinlik Başarıyla Kaydedildi', 'bladeID'=>$bladeID, 'newID'=>$event->id], 201);
         }
         return response()->json(['success' => false, 'message' => 'Etkinlik Kayıt Edilemedi!'], 404);
     }
@@ -65,13 +68,18 @@ class TuicalendarController extends Controller
     public function destroy(Request $request)
     {
         $jsonData = $request->json()->all();
-        $id = $jsonData['id']['id'];
-
-        $event = Events::findOrFail($id);
-        $event->delete();
-        if ($event) {
-            return response()->json(['success' => true, 'message' => 'Etkinlik Başarıyla Silindi'], 204);
+        if (isset($jsonData['id'])) {
+            $id = $jsonData['id'];
+            try {
+                $event = Events::findOrFail($id);
+                $event->delete();
+                return response()->json(['success' => true, 'message' => 'Etkinlik Başarıyla Silindi'], 200);
+            } catch (ModelNotFoundException $e) {
+                return response()->json(['success' => false, 'message' => 'Etkinlik Bulunamadı!'], 404);
+            }
+        } else {
+            return response()->json(['success' => false, 'message' => 'Geçersiz ID!'], 400);
         }
-        return response()->json(['success' => false, 'message' => 'Etkinlik Silinemedi!'], 404);
     }
+
 }

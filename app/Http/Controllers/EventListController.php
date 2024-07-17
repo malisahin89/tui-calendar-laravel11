@@ -55,7 +55,7 @@ class EventListController extends Controller
         ];
 
         $pdf = Pdf::loadView('tui-events-PDF', $data);
-        return $pdf->download('invoice.pdf');
+        return $pdf->download($month.'-'.$year.'-etkinlikler.pdf');
 
     }
 

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -40,6 +39,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
     <script src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/store@2.0.12/dist/store.everything.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 
     <script>
         var Calendar = window.tui.Calendar;
@@ -51,7 +53,6 @@
             return item;
         });
 
-
         var cal = new Calendar('#main', {
             defaultView: 'month',
             usageStatistics: false,
@@ -61,10 +62,7 @@
                 }
             },
 
-
-
             calendars: [
-
                 @if (count($users) > 0)
                     @foreach ($users as $user)
                         {
@@ -77,11 +75,7 @@
                         },
                     @endforeach
                 @endif
-
             ],
-
-
-
 
             useFormPopup: true,
             useDetailPopup: true,
@@ -126,8 +120,6 @@
             },
         });
 
-
-
         cal.createEvents([
             @if (count($datas) > 0)
                 @foreach ($datas as $data)
@@ -147,14 +139,20 @@
                 @endforeach
             @endif
         ]);
-    </script>
 
-    <script src="{{ asset('tuicalendar/app.js') }}"></script>
+        function changeEventId(oldId, newId) {
+            var event = events.find(e => e.id === oldId);
+            if (event) {
+                event.id = newId;
+                cal.updateEvent(oldId, event.calendarId, {
+                    id: newId
+                });
+            }
+        }
 
-    <script>
+
         function addItem(obj) {
             events.push(obj);
-
 
             $.ajax({
                 type: "POST",
@@ -166,9 +164,12 @@
                 },
                 success: function(response) {
                     console.log("Veri başarıyla kaydedildi: ", response);
+                    toastr.success(response.message);
+                    changeEventId(obj.id, response.newID);
                 },
-                error: function(xhr, status, error) {
-                    console.error("Veri kaydedilemedi: ", error);
+                error: function(xhr, status, response) {
+                    console.error("Veri kaydedilemedi: ", response);
+                    toastr.error(response.message);
                 }
             });
         }
@@ -184,7 +185,6 @@
                 events[index] = obj;
             }
 
-
             $.ajax({
                 type: "POST",
                 url: "{{ route('event.create.update') }}",
@@ -195,16 +195,17 @@
                 },
                 success: function(response) {
                     console.log("Veri başarıyla güncellendi: ", response);
+                    toastr.success(response.message);
                 },
-                error: function(xhr, status, error) {
-                    console.error("Veri güncellenemedi: ", error);
+                error: function(xhr, status, response) {
+                    console.error("Veri güncellenemedi: ", response);
+                    toastr.error(response.message);
                 }
             });
         }
 
         function delItem(id) {
             events = events.filter(event => event.id !== id);
-
 
             $.ajax({
                 type: "POST",
@@ -218,14 +219,16 @@
                 },
                 success: function(response) {
                     console.log("Veri başarıyla silindi: ", response);
+                    toastr.success(response.message);
                 },
-                error: function(xhr, status, error) {
-                    console.error("Veri silinemedi: ", error);
+                error: function(xhr, status, response) {
+                    console.error("Veri silinemedi: ", response);
+                    toastr.error(response.message);
                 }
             });
         }
     </script>
-
+      <script src="{{ asset('tuicalendar/app.js') }}"></script>
 </body>
 
 </html>
